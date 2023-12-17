@@ -11,7 +11,8 @@ const Household = () => {
 
     return (
     <View style={householdStyles.container}>
-        <Button title="Add" onPress={() => setIsModalOpen(true)} />
+        <Text>家計簿を追加</Text>
+        <Button title="追加" onPress={() => setIsModalOpen(true)} />
         <Modal
            animationType="slide"
            transparent={true}
