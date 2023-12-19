@@ -1,25 +1,34 @@
- import  { useState } from 'react'
+ import  { useEffect, useState } from 'react'
  import { View, Text, Button, Modal } from 'react-native'
  import { useTailwind } from 'tailwindcss-react-native'
  import { householdStyles } from '../utils/styles'
+ import RNPickerSelect from 'react-native-picker-select'
 
 
 const Household = () => {
     const tailwind = useTailwind()
-    const [isModalOpen, setIsModalOpen] = useState(false)
-    const [household, setHousehold] = useState([])
+
+    const currentDate = new Date()
+    const currentYear = currentDate.getFullYear()
+    const currentMonth = currentDate.getMonth() + 1
+
+    const [year, setYear] = useState(currentYear)
+    const [month, setMonth] = useState(currentMonth)
+
+    useEffect(() => {
+
+    }, [year, month])
 
     return (
-    <View style={householdStyles.container}>
-        <Text>家計簿を追加</Text>
-        <Button title="追加" onPress={() => setIsModalOpen(true)} />
-        <Modal
-           animationType="slide"
-           transparent={true}
-           visible={isModalOpen}
-           onRequestClose={() => setIsModalOpen(false)}>
-        </Modal>
-    </View>
+        <View>
+            <RNPickerSelect
+                onValueChange={(value) => setYear(value)}
+                items={[
+                    { label: (year-1).toString(), value: year-1},
+                    { label: year.toString(), value: year}
+                ]}
+            />
+        </View>
     )
 }
 
