@@ -1,0 +1,8 @@
+name: Github Actions workflow on Household App
+run-name: ${{ github.actor }} is testing Household App
+on: [push]
+jobs:
+  Explore-Github-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "This job is triggered by a {{ github.event_name }} event."
