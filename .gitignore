@@ -64,3 +64,8 @@ yarn-error.log
 
 # testing
 /coverage
+
+# line_bot_sdk
+line_bot_sdk/
+.env
+dist/
