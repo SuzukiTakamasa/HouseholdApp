@@ -1,8 +1,7 @@
  import  { useEffect, useState } from 'react'
- import { View, Text, Button, Modal } from 'react-native'
- import { Picker } from '@react-native-picker/picker'
+ import { View, Text, TextInput, Button } from 'react-native'
  import { householdStyles } from '../utils/styles'
- import RNPickerSelect from 'react-native-picker-select'
+ import RNPickerSelect, {PickerSelectProps} from 'react-native-picker-select'
 
 
 const Household = () => {
@@ -14,22 +13,45 @@ const Household = () => {
 
     const [year, setYear] = useState(currentYear)
     const [month, setMonth] = useState(currentMonth)
+    const [formCount, setFormCount] = useState(1)
+
+    const renderInputForm = () => {
+        const inputForms = []
+        for (let i = 1; i < formCount + 1; i++) {
+            inputForms.push(
+                <View key={i} style={householdStyles.inputContainer}>
+                    <TextInput style={householdStyles.input} placeholder="項目名"/>
+                    <TextInput style={householdStyles.input} placeholder="金額"/>
+                    <Button title="保存"/>
+                </View>
+            )
+        }
+        return inputForms
+    }
 
     useEffect(() => {
 
     }, [year, month])
 
     return (
-        <View>
-            <RNPickerSelect
-                onValueChange={(value) => setYear(value)}
-                items={[
-                    { label: lastYear.toString(), value: lastYear.toString()},
-                    { label: currentYear.toString(), value: currentYear.toString()}
-                ]}
-            />
-            <Text>{month}月の生活費</Text>
-        </View>
+        <>
+            <View style={householdStyles.headerContainer}>
+                <RNPickerSelect
+                    onValueChange={(value) => setYear(value)}
+                    items={[
+                        { label: lastYear.toString(), value: lastYear.toString()},
+                        { label: currentYear.toString(), value: currentYear.toString()}
+                    ]}
+                    placeholder={{label: "年を選択...", value: null}}
+                />
+                <Text style={householdStyles.item}>{month}月の生活費</Text>
+            </View>
+            {renderInputForm()}
+            <View style={householdStyles.buttonsContainer}>
+                <Button title="項目を追加" onPress={() => setFormCount(n => n + 1)}/>
+                {formCount >= 2 && <Button title="項目を削除" onPress={() => setFormCount(n => n -1)}/>}
+            </View>
+        </>
     )
 }
 

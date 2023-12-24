@@ -1,29 +1,41 @@
 import { StyleSheet } from 'react-native'
+import {PickerSelectProps} from 'react-native-picker-select'
 
 export const householdStyles = StyleSheet.create({
-    container: {
-      flex: 1,
+    headerContainer: {
       alignItems: 'center',
-      justifyContent: 'center',
     },
-    modalView: {
-      margin: 20,
-      backgroundColor: 'white',
-      borderRadius: 20,
-      padding: 35,
-      alignItems: 'center',
-      shadowColor: '#000',
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
+    inputIOS: {
+      fontSize: 16,
+      paddingVertical: 12,
+      paddingHorizontal: 10,
+      borderWidth: 1,
+      borderColor: 'gray',
+      borderRadius: 4,
+      color: 'black',
+      paddingRight: 30,
     },
     item: {
       padding: 10,
       fontSize: 18,
       height: 44,
     },
+    inputContainer: {
+      flexDirection: 'row', 
+      justifyContent: 'space-between', 
+      alignItems: 'center', 
+      padding: 1,
+    },
+    input: {
+      flex: 1,
+      margin: 5,
+      borderWidth: 1,
+      borderColor: 'gray',
+      padding: 10,
+    },
+    buttonsContainer: {
+      flexDirection: 'row', 
+      alignItems: 'center', 
+      padding: 1,
+    }
   });
