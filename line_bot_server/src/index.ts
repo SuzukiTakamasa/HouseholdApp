@@ -26,7 +26,7 @@ app.post('/webhook', line.middleware(lineBotConfig), async (req, res) => {
     client.pushMessage({to: <string>process.env.USER_ID_T, messages: [messageObj]})
 })
 
-const PORT = process.env.PPORT || 3000
+const PORT = process.env.PORT || 3000
 app.listen(PORT)
 
 const getMonthlyFixedBill = async (): Promise<string> => {
