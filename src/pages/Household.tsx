@@ -1,5 +1,5 @@
  import  { useEffect, useState } from 'react'
- import { View, Text, TextInput, Button } from 'react-native'
+ import { TouchableOpacity, View, Text, TextInput, Button } from 'react-native'
  import { householdStyles } from '../utils/styles'
  import RNPickerSelect, {PickerSelectProps} from 'react-native-picker-select'
 
@@ -10,16 +10,27 @@ const Household = () => {
     const currentYear = currentDate.getFullYear()
     const lastYear = currentYear - 1
     const currentMonth = currentDate.getMonth() + 1
+    const initializedCheckedItems: number[] = []
 
     const [year, setYear] = useState(currentYear)
     const [month, setMonth] = useState(currentMonth)
     const [formCount, setFormCount] = useState(1)
+    const [isDefault, setIsDefault] = useState(false)
+    const [checkedItems, setCheckedItems] = useState(initializedCheckedItems)
+
+    const handleSetIsDefault = (index: number) => {
+        setIsDefault(!isDefault)
+        !checkedItems.includes(index) ? setCheckedItems([...checkedItems, index]) : setCheckedItems(checkedItems.filter(i => i !== index))
+    }
 
     const renderInputForm = () => {
         const inputForms = []
         for (let i = 1; i < formCount + 1; i++) {
             inputForms.push(
                 <View key={i} style={householdStyles.inputContainer}>
+                    <TouchableOpacity onPress={() => handleSetIsDefault(i)} style={householdStyles.checkbox}>
+                        {checkedItems.includes(i) && <View style={householdStyles.checked}/>}
+                    </TouchableOpacity>
                     <TextInput style={householdStyles.input} placeholder="項目名"/>
                     <TextInput style={householdStyles.input} placeholder="金額"/>
                     <Button title="保存"/>

@@ -37,5 +37,19 @@ export const householdStyles = StyleSheet.create({
       flexDirection: 'row', 
       alignItems: 'center', 
       padding: 1,
-    }
+    },
+    checkbox: {
+      height: 20,
+      width: 20,
+      borderWidth: 1,
+      borderColor: 'black',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 8,
+    },
+    checked: {
+      height: 10,
+      width: 10,
+      backgroundColor: 'black',
+    },
   });
