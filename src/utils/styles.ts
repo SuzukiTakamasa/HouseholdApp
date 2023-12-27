@@ -52,4 +52,14 @@ export const householdStyles = StyleSheet.create({
       width: 10,
       backgroundColor: 'black',
     },
+    pagenationContainer: {
+      flex: 1,
+      justifyContent: 'flex-end',
+    },
+    pagenationButtons: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginBottom: 20,
+      marginHorizontal: 10,
+    }
   });

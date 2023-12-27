@@ -18,6 +18,7 @@ const Household = () => {
     const [isDefault, setIsDefault] = useState(false)
     const [checkedItems, setCheckedItems] = useState(initializedCheckedItems)
 
+
     const handleSetIsDefault = (index: number) => {
         setIsDefault(!isDefault)
         !checkedItems.includes(index) ? setCheckedItems([...checkedItems, index]) : setCheckedItems(checkedItems.filter(i => i !== index))
@@ -61,6 +62,13 @@ const Household = () => {
             <View style={householdStyles.buttonsContainer}>
                 <Button title="項目を追加" onPress={() => setFormCount(n => n + 1)}/>
                 {formCount >= 2 && <Button title="項目を削除" onPress={() => setFormCount(n => n -1)}/>}
+            </View>
+            <View style={householdStyles.pagenationContainer}>
+                <View style={householdStyles.pagenationButtons}>
+                    <Button title="先月の家計簿" onPress={() => setMonth(m => m - 1)}/>
+                    <View style={{ flex: 1 }}/>
+                    <Button title="来月の家計簿" onPress={() => setMonth(m => m + 1)}/>
+                </View>
             </View>
         </>
     )

@@ -14,6 +14,8 @@ const client =new line.messagingApi.MessagingApiClient({
     channelAccessToken: <string>process.env.LINE_CHANNEL_ACCESS_TOKEN,
 })
 
+const userIds: string[] = [<string>process.env.USER_ID_T, <string>process.env.USER_ID_Y]
+
 const app = express()
 app.post('/webhook', line.middleware(lineBotConfig), async (req, res) => {
     const message = await getMonthlyFixedBill()
@@ -22,8 +24,9 @@ app.post('/webhook', line.middleware(lineBotConfig), async (req, res) => {
         type: 'text',
         text: message
     }
-
-    client.pushMessage({to: <string>process.env.USER_ID_T, messages: [messageObj]})
+    userIds.forEach(userId => {
+        userId && client.pushMessage({to: userId, messages: [messageObj]})
+    })
 })
 
 const PORT = process.env.PORT || 3000
