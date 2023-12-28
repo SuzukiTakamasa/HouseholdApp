@@ -17,5 +17,3 @@ export interface User {
 }
 
 export type Collection = "household" | "user"
-
-export type Condition = (string | number | boolean)[]
