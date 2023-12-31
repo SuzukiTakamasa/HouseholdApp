@@ -39,7 +39,9 @@ const getMonthlyFixedBill = async (): Promise<string> => {
 
     let monthlyBill = 0
     snapshot.forEach( s => {
-        s.data().is_owner ? monthlyBill += s.data().amount : monthlyBill -= s.data().amount
+        s.data().is_owner
+        ? monthlyBill += s.data().amount
+        : monthlyBill -= s.data().amount
     })
     return `今月の生活費です。\n${monthlyBill}`
 }

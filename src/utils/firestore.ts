@@ -1,39 +1,45 @@
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
-import { Household, User, Collection } from './constants'
+import { Household, User, WhereCondition, Collection } from './constants'
 
 export default class FirestoreHandler {
     private db: FirebaseFirestoreTypes.Module
-    constructor() {
+    private collection: Collection
+    constructor(collection: Collection) {
         this.db = firestore()
         if (__DEV__) this.db.useEmulator('localhost', 8080)
+        this.collection = collection
     }
 
-    async get(collection: Collection, ...condition: [string, FirebaseFirestoreTypes.WhereFilterOp, any]) {
+    async get(conditions: WhereCondition[]) {
         try {
-            const query = condition.length
-            ? await this.db.collection(collection).where(...condition).get()
-            : await this.db.collection(collection).get()
-            return query.docs.map(query => query.data())
-        } catch (e) {
-            console.log("データの取得に失敗しました。")
-            throw e
+          let query: FirebaseFirestoreTypes.Query = this.db.collection(this.collection);
+      
+          conditions.forEach(condition => {
+            query = query.where(condition.field, condition.operator, condition.value);
+          });
+      
+          const querySnapshot = await query.get();
+          return querySnapshot.docs.map(doc => doc.data());
+        } catch (error) {
+          console.log("データの参照に失敗しました。", error);
+          throw error;
         }
-    }
+      }
 
-    add(collection: Collection, data: Household | User) {
-        this.db.collection(collection).add(data)
+    add(data: Household | User) {
+        this.db.collection(this.collection).add(data)
         .then(() => {console.log("データの追加に成功しました。")})
         .catch(() => {console.log("データの追加に失敗しました。")})
     }
 
-    update(collection: Collection, data: Household | User, docId: string) {
-        this.db.collection(collection).doc(docId).update(data)
+    update(data: Household | User, docId: string) {
+        this.db.collection(this.collection).doc(docId).update(data)
         .then(() => {console.log("データの更新に成功しました。")})
         .catch(() => {console.log("データの参照に失敗しました。")})
     }
 
-    delete(collection: Collection, docId: string) {
-        this.db.collection(collection).doc(docId).delete()
+    delete(docId: string) {
+        this.db.collection(this.collection).doc(docId).delete()
         .then(() => {console.log("データの削除に成功しました。")})
         .catch(() => {console.log("データの削除に失敗しました。")})
     }

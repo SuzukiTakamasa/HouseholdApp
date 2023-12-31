@@ -1,7 +1,9 @@
  import  { useEffect, useState } from 'react'
  import { TouchableOpacity, View, Text, TextInput, Button } from 'react-native'
  import { householdStyles } from '../utils/styles'
- import RNPickerSelect, {PickerSelectProps} from 'react-native-picker-select'
+ import RNPickerSelect, { PickerSelectProps } from 'react-native-picker-select'
+ import FirestoreHandler from '../utils/firestore'
+ import { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 
 
 const Household = () => {
@@ -22,6 +24,24 @@ const Household = () => {
     const handleSetIsDefault = (index: number) => {
         setIsDefault(!isDefault)
         !checkedItems.includes(index) ? setCheckedItems([...checkedItems, index]) : setCheckedItems(checkedItems.filter(i => i !== index))
+    }
+
+    const getHousehold = async () => {
+        const conditions = [
+            {field: "year", operator: "==" as FirebaseFirestoreTypes.WhereFilterOp, value: year},
+            {field: "month", operator: "==" as FirebaseFirestoreTypes.WhereFilterOp, value: month},
+        ]
+        const fh = new FirestoreHandler("household")
+        const householdData =  await fh.get(conditions)
+        return (
+            <>
+            {householdData.length && householdData.map((household) => {
+                <View key={household.id} style={householdStyles.householdContainer}>
+                    <Text style={householdStyles.householdText}></Text>
+                </View>
+            })}
+            </>
+        )
     }
 
     const renderInputForm = () => {
