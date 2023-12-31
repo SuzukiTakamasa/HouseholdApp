@@ -69,3 +69,7 @@ yarn-error.log
 line_bot_sdk/
 .env
 dist/
+
+# firestore-debug.log
+firestore-debug.log
+ui-debug.log
