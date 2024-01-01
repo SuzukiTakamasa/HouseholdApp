@@ -23,7 +23,9 @@ const Household = () => {
 
     const handleSetIsDefault = (index: number) => {
         setIsDefault(!isDefault)
-        !checkedItems.includes(index) ? setCheckedItems([...checkedItems, index]) : setCheckedItems(checkedItems.filter(i => i !== index))
+        !checkedItems.includes(index)
+        ? setCheckedItems([...checkedItems, index])
+        : setCheckedItems(checkedItems.filter(i => i !== index))
     }
 
     const getHousehold = async () => {
