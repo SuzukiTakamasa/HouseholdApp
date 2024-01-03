@@ -25,3 +25,5 @@ const YearPickerSelect = () => {
         </View>
     )
 }
+
+export default YearPickerSelect

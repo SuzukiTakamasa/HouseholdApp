@@ -19,3 +19,5 @@ const MonthPagination = () => {
         </View>
     )
 }
+
+export default MonthPagination
