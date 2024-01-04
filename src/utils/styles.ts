@@ -61,12 +61,5 @@ export const householdStyles = StyleSheet.create({
       justifyContent: 'space-between',
       marginBottom: 20,
       marginHorizontal: 10,
-    },
-    householdContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-    },
-    householdText: {
-      marginHorizontal: 5,
-    },
+    }
   });
