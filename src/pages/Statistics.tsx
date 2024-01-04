@@ -1,3 +1,4 @@
+import React from 'react'
 import YearPickerSelect from '../components/YearPickerSelect'
 import MonthPagination from '../components/MonthPagination'
 
