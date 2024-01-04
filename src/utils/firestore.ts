@@ -1,5 +1,5 @@
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
-import { Household, User, Collection } from './constants'
+import { Household, User, Collection, WhereCondition } from './constants'
 
 export default class FirestoreHandler {
     private db: FirebaseFirestoreTypes.Module
@@ -8,17 +8,21 @@ export default class FirestoreHandler {
         if (__DEV__) this.db.useEmulator('localhost', 8080)
     }
 
-    async get(collection: Collection, ...condition: [string, FirebaseFirestoreTypes.WhereFilterOp, any]) {
+    async get(collection: Collection, conditions: WhereCondition[]) {
         try {
-            const query = condition.length
-            ? await this.db.collection(collection).where(...condition).get()
-            : await this.db.collection(collection).get()
-            return query.docs.map(query => query.data())
-        } catch (e) {
-            console.log("データの取得に失敗しました。")
-            throw e
+          let query: FirebaseFirestoreTypes.Query = this.db.collection(collection)
+      
+          conditions.forEach(condition => {
+            query = query.where(condition.field, condition.operator, condition.value)
+          })
+      
+          const querySnapshot = await query.get();
+          return querySnapshot.docs.map(doc => doc.data())
+        } catch (error) {
+          console.log("データの参照に失敗しました。", error)
+          throw error
         }
-    }
+      }
 
     add(collection: Collection, data: Household | User) {
         this.db.collection(collection).add(data)

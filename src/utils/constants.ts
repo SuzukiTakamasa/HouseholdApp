@@ -1,3 +1,5 @@
+import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
+
 export interface Household {
     id?: string,
     year?: number,
@@ -17,3 +19,9 @@ export interface User {
 }
 
 export type Collection = "household" | "user"
+
+export interface WhereCondition {
+    field: string;
+    operator: FirebaseFirestoreTypes.WhereFilterOp;
+    value: any;
+  }
