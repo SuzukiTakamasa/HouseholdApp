@@ -2,6 +2,8 @@
  import { TouchableOpacity, View, Text, TextInput, Button } from 'react-native'
  import { householdStyles } from '../utils/styles'
  import RNPickerSelect, {PickerSelectProps} from 'react-native-picker-select'
+ import FirestoreHandler from '../utils/firestore'
+ import { HouseholdData } from '../utils/constants'
 
 
 const Household = () => {
@@ -17,6 +19,7 @@ const Household = () => {
     const [formCount, setFormCount] = useState(1)
     const [isDefault, setIsDefault] = useState(false)
     const [checkedItems, setCheckedItems] = useState(initializedCheckedItems)
+    const [households, setHouseholds] = useState<HouseholdData[]>([])
 
 
     const handleSetIsDefault = (index: number) => {
@@ -24,6 +27,19 @@ const Household = () => {
         !checkedItems.includes(index)
         ? setCheckedItems([...checkedItems, index])
         : setCheckedItems(checkedItems.filter(i => i !== index))
+    }
+
+    const getHouseholds = async () => {
+        const fh = new FirestoreHandler()
+        const response = await fh.get('household', [
+            {field: 'month', operator: '==', value: month},
+            {field: 'year', operator: '==',value: year}
+        ]) as HouseholdData[]
+        return response
+    }
+
+    const saveHouseholds = () => {
+        
     }
 
     const renderInputForm = () => {
@@ -44,7 +60,11 @@ const Household = () => {
     }
 
     useEffect(() => {
-
+        const fetchHousehold = async () => {
+            const households = await getHouseholds()
+            setHouseholds(households)
+        }
+        fetchHousehold()
     }, [year, month])
 
     return (
@@ -60,6 +80,14 @@ const Household = () => {
                 />
                 <Text style={householdStyles.item}>{month}月の生活費</Text>
             </View>
+            {households.map((household, i) => {
+                return (
+                <View key={i} style={householdStyles.households}>
+                    <Text>{household.item}</Text>
+                    <Text>{household.amount}</Text>
+                </View>
+                )
+            })}
             {renderInputForm()}
             <View style={householdStyles.buttonsContainer}>
                 <Button title="項目を追加" onPress={() => setFormCount(n => n + 1)}/>
