@@ -7,7 +7,7 @@ export interface Household {
     item: string,
     amount: number,
     isDefault: boolean,
-    version: number
+    version?: number
 }
 
 export interface User {
@@ -15,7 +15,7 @@ export interface User {
     emailAddress?: string,
     sessionId?: string,
     isOwner: boolean,
-    verson: number
+    verson?: number
 }
 
 export type Collection = "household" | "user"
