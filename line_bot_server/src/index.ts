@@ -10,7 +10,7 @@ const lineBotConfig = {
     channelSecret: <string>process.env.LINE_CHANNEL_SECRET,
 }
 
-const client = new line.messagingApi.MessagingApiClient({
+const client =new line.messagingApi.MessagingApiClient({
     channelAccessToken: <string>process.env.LINE_CHANNEL_ACCESS_TOKEN,
 })
 

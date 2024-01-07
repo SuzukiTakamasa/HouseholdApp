@@ -61,12 +61,5 @@ export const householdStyles = StyleSheet.create({
       justifyContent: 'space-between',
       marginBottom: 20,
       marginHorizontal: 10,
-    },
-    households: {
-      flex: 1,
-      margin: 5,
-      borderWidth: 1,
-      borderColor: 'gray',
-      padding: 10,
     }
   });

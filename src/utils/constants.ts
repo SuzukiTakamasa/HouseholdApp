@@ -1,6 +1,6 @@
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
 
-export interface HouseholdData {
+export interface Household {
     id?: string,
     year?: number,
     month?: number,
@@ -10,15 +10,13 @@ export interface HouseholdData {
     version: number
 }
 
-export interface UserData {
+export interface User {
     id?: string,
     emailAddress?: string,
     sessionId?: string,
     isOwner: boolean,
     verson: number
 }
-
-export type GetResult = HouseholdData[] | UserData[]
 
 export type Collection = "household" | "user"
 

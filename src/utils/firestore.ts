@@ -1,5 +1,5 @@
 import firestore, { FirebaseFirestoreTypes } from '@react-native-firebase/firestore'
-import { HouseholdData, UserData, Collection, WhereCondition, GetResult } from './constants'
+import { Household, User, Collection, WhereCondition } from './constants'
 
 export default class FirestoreHandler {
     private db: FirebaseFirestoreTypes.Module
@@ -17,20 +17,20 @@ export default class FirestoreHandler {
           })
       
           const querySnapshot = await query.get();
-          return querySnapshot.docs.map(doc => doc.data()) as GetResult
+          return querySnapshot.docs.map(doc => doc.data())
         } catch (error) {
           console.log("データの参照に失敗しました。", error)
           throw error
         }
       }
 
-    add(collection: Collection, data: HouseholdData | UserData) {
+    add(collection: Collection, data: Household | User) {
         this.db.collection(collection).add(data)
         .then(() => {console.log("データの追加に成功しました。")})
         .catch(() => {console.log("データの追加に失敗しました。")})
     }
 
-    update(collection: Collection, data: HouseholdData | UserData, docId: string) {
+    update(collection: Collection, data: Household | User, docId: string) {
         this.db.collection(collection).doc(docId).update(data)
         .then(() => {console.log("データの更新に成功しました。")})
         .catch(() => {console.log("データの参照に失敗しました。")})
