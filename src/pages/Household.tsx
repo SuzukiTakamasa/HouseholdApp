@@ -12,22 +12,17 @@ const Household = () => {
     const currentYear = currentDate.getFullYear()
     const lastYear = currentYear - 1
     const currentMonth = currentDate.getMonth() + 1
-    const initializedCheckedItems: number[] = []
 
     const [year, setYear] = useState(currentYear)
     const [month, setMonth] = useState(currentMonth)
-    const [formCount, setFormCount] = useState(1)
-    const [isDefault, setIsDefault] = useState(false)
-    const [checkedItems, setCheckedItems] = useState(initializedCheckedItems)
+    const [formCount, setFormCount] = useState(0)
     const [households, setHouseholds] = useState<HouseholdData[]>([])
 
+    const [item, setItem] = useState('')
+    const [amount, setAmount] = useState(0)
+    const [isDefault, setIsDefault] = useState(false)
+    const [version, setVersion] = useState(0)
 
-    const handleSetIsDefault = (index: number) => {
-        setIsDefault(!isDefault)
-        !checkedItems.includes(index)
-        ? setCheckedItems([...checkedItems, index])
-        : setCheckedItems(checkedItems.filter(i => i !== index))
-    }
 
     const getHouseholds = async () => {
         const fh = new FirestoreHandler()
@@ -39,24 +34,29 @@ const Household = () => {
     }
 
     const saveHouseholds = () => {
-        
+        const fh = new FirestoreHandler()
+        fh.add('household', {
+          year: year,
+          month: month,
+          item: item,
+          amount: amount,
+          isDefault: isDefault,
+          version: version
+        })
     }
 
-    const renderInputForm = () => {
-        const inputForms = []
-        for (let i = 1; i < formCount + 1; i++) {
-            inputForms.push(
-                <View key={i} style={householdStyles.inputContainer}>
-                    <TouchableOpacity onPress={() => handleSetIsDefault(i)} style={householdStyles.checkbox}>
-                        {checkedItems.includes(i) && <View style={householdStyles.checked}/>}
-                    </TouchableOpacity>
-                    <TextInput style={householdStyles.input} placeholder="項目名"/>
-                    <TextInput style={householdStyles.input} placeholder="金額"/>
-                    <Button title="保存"/>
-                </View>
-            )
-        }
-        return inputForms
+    const updateHousehold = (docId: string) => {
+        const fh = new FirestoreHandler()
+        fh.update('household', {
+          year: year,
+          month: month,
+          item: item,
+          amount: amount,
+          isDefault: isDefault,
+          version: version
+        },
+        docId
+        )
     }
 
     useEffect(() => {
@@ -88,10 +88,19 @@ const Household = () => {
                 </View>
                 )
             })}
-            {renderInputForm()}
+            {formCount == 1 &&
+                <View style={householdStyles.inputContainer}>
+                <TouchableOpacity onPress={() => setIsDefault(!isDefault)} style={householdStyles.checkbox}>
+                    {isDefault && <View style={householdStyles.checked}/>}
+                </TouchableOpacity>
+                <TextInput style={householdStyles.input} placeholder="項目名" onChangeText={(text) => setItem(text)} value={item} />
+                <TextInput style={householdStyles.input} placeholder="金額" onChangeText={(text) => setAmount(Number(text))} value={amount.toString()} />
+                <Button title="保存" onPress={() => saveHouseholds}/>
+                </View>
+            }
             <View style={householdStyles.buttonsContainer}>
-                <Button title="項目を追加" onPress={() => setFormCount(n => n + 1)}/>
-                {formCount >= 2 && <Button title="項目を削除" onPress={() => setFormCount(n => n -1)}/>}
+                {formCount == 0 && <Button title="項目を追加" onPress={() => setFormCount(n => n + 1)}/>}
+                {formCount == 1 && <Button title="項目を削除" onPress={() => setFormCount(n => n -1)}/>}
             </View>
             <View style={householdStyles.pagenationContainer}>
                 <View style={householdStyles.pagenationButtons}>

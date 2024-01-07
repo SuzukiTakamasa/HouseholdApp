@@ -7,7 +7,7 @@ export interface HouseholdData {
     item: string,
     amount: number,
     isDefault: boolean,
-    version: number
+    version?: number
 }
 
 export interface UserData {
@@ -15,7 +15,7 @@ export interface UserData {
     emailAddress?: string,
     sessionId?: string,
     isOwner: boolean,
-    verson: number
+    verson?: number
 }
 
 export type GetResult = HouseholdData[] | UserData[]
